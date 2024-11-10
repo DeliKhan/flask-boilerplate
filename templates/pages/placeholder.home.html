@@ -1,36 +1,51 @@
-{% extends 'layouts/main.html' %}
-{% block title %}Home{% endblock %}
-{% block content %}
+{% extends 'layouts/main.html' %} {% block title %}Home{% endblock %} {% block
+content %}
 
 <div class="page-header">
   <div class="profile-section">
-
-     <!-- Popup Question -->
-     <div required id="myModal" class="modal">
+    <!-- Popup Question -->
+    <div required id="myModal" class="modal">
       <div class="modal-content">
-          <span class="close">&times;</span>
-          <h4>Answer the question below authenticate yourself to the user</h4>
-          <h5>Question: What is your favourite colour?</h5>
-          <input type="text" placeholder="Enter answer here">
-          <br>
-          <input type="submit">
+        <span class="close">&times;</span>
+        <h4>Answer the question below authenticate yourself to the user</h4>
+        <h5>Question: {{question.question}}</h5>
+        <input type="text" id="modalInput" placeholder="Enter answer here" />
+        <br />
+        <input type="submit" />
       </div>
     </div>
     <!-- Profile Image -->
     <div class="profile-info">
-        <div class="profile-circle">
-          <button class="profile-btn">
-            <img src="static/img/profile_picture.svg" alt="Profile Picture" class="profile-pic">
-          </button>
-        </div>
-        <div class="profile-details">
-            <h2>Username</h2>
-            <p>Followers: <span id="follower-count">123</span></p>
-            <!-- Button to open the modal -->
-            <button id="openModalBtn">Follow Request</button>
-        </div>
+      <div class="profile-circle">
+        <button class="profile-btn">
+          <img
+            src="static/img/profile_picture.svg"
+            alt="Profile Picture"
+            class="profile-pic"
+          />
+        </button>
+      </div>
+      <div class="profile-details">
+        <h2>Username</h2>
+        <p>Followers: <span id="follower-count">123</span></p>
+        <!-- Button to open the modal -->
+        <button id="openModalBtn">Follow Request</button>
+      </div>
     </div>
   </div>
 </div>
+
+<!-- Hidden form to submit the answer to the backend -->
+<form
+  id="followRequestForm"
+  action="{{ url_for('submit_follow_request') }}"
+  method="POST"
+  style="display: none"
+>
+  <input type="hidden" name="username" value="{{ username }}" />
+  <input type="hidden" name="followerusername" value="{{ followerusername }}" />
+  <input type="hidden" name="question" value="{{ question.question }}" />
+  <input type="hidden" id="answerInput" name="answer" value="" />
+</form>
 
 {% endblock %}
