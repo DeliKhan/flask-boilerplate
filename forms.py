@@ -1,5 +1,5 @@
 from flask_wtf import Form
-from wtforms import StringField, PasswordField
+from wtforms import StringField, PasswordField, FieldList, FormField, TextAreaField
 from wtforms.validators import DataRequired, EqualTo, Length
 
 # Set your classes here.
@@ -31,3 +31,11 @@ class ForgotForm(Form):
     email = StringField(
         'Email', validators=[DataRequired(), Length(min=6, max=40)]
     )
+
+class QuestionForm(Form):
+    question = StringField('Question', validators=[DataRequired(), Length(max=255)])
+
+class SettingsForm(Form):
+    questions = FieldList(FormField(QuestionForm), min_entries=1, max_entries=10)
+
+# ...existing code...

@@ -90,6 +90,15 @@ def profile():
         <a href="/logout">Logout</a>
     """.format(current_user.id)
 
+@app.route('/settings', methods=['GET', 'POST'])
+def settings():
+    form = SettingsForm(request.form)
+    if request.method == 'POST' and form.validate():
+        # Handle form submission
+        flash('Settings saved successfully!', 'success')
+        return redirect(url_for('settings'))
+    return render_template('forms/settings.html', form=form)
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm(request.form)
