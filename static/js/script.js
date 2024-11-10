@@ -80,14 +80,21 @@ submitBtn.onclick = function (event) {
       inputField.setCustomValidity(""); // Clear the custom validity message
   }
 
+  // Update the "Follow Request" button text and disable it
+  if (btn) {
+    btn.textContent = "Requested";
+    btn.disabled = true;
+    btn.classList.remove("btn-primary");
+    btn.classList.add("btn-secondary");
+}
+  // Populate the hidden form field with the modal answer
+  document.getElementById('answerInput').value = inputField.value;
+
+  // Submit the form
+  document.getElementById('followRequestForm').submit();
+
   // Close the modal
   modal.style.display = "none";
 
-  // Update the "Follow Request" button text and disable it
-  if (btn) {
-      btn.textContent = "Requested";
-      btn.disabled = true;
-      btn.classList.remove("btn-primary");
-      btn.classList.add("btn-secondary");
-  }
+  
 };
