@@ -71,6 +71,22 @@ def home():
     random_question = UserSecurityQuestions.query.order_by(func.random()).first()
     return render_template('pages/placeholder.home.html',question=random_question)
 
+from flask import request
+
+@app.route('/submit_follow_request', methods=['POST'])
+def submit_follow_request():
+    username = request.form.get('username')
+    followerusername = request.form.get('followerusername')
+    question = request.form.get('question')
+    answer = request.form.get('answer')
+
+    # Create a new FollowRequest instance and save to the database
+    new_request = FollowRequest(username='A', followerusername='B', question=question, answer=answer)
+    db.session.add(new_request)
+    db.session.commit()
+
+    return redirect(url_for('home'))  # Redirect to the home page or any other page as needed
+
 
 @app.route('/notification')
 def notification():
