@@ -72,9 +72,9 @@ def home():
     return render_template('pages/placeholder.home.html',question=random_question)
 
 
-@app.route('/about')
-def about():
-    return render_template('pages/placeholder.about.html')
+@app.route('/notification')
+def notification():
+    return render_template('pages/placeholder.notification.html')
 
 @app.route('/profile')
 @login_required

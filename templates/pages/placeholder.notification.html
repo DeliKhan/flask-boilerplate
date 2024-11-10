@@ -1,0 +1,27 @@
+{% extends 'layouts/main.html' %}
+{% block title %}Notification{% endblock %}
+{% block content %}
+
+<div class="page-header">
+  <h1>Notifications</h1>
+</div>
+<table id="notificationsTable" class="table">
+  <thead>
+      <tr>
+          <th>Notification</th>
+          <th>Accept</th>
+          <th>Deny</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><h5>Incoming notification</h5>
+            <p style="margin: 0; padding: 0;">Question: What is the user's favourite colour? </p>
+            <p>Answer: blue </p>
+          </td>
+          <td><button class="btn btn-success accept-btn">Accept</button></td>
+          <td><button class="btn btn-danger deny-btn">Deny</button></td>
+      </tr>
+  </tbody>
+</table>
+{% endblock %}
