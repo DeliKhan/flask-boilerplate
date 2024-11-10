@@ -93,29 +93,43 @@ def profile():
     """.format(current_user.id)
 
 @app.route('/settings', methods=['GET', 'POST'])
-@login_required
 def settings():
     form = SettingsForm(request.form)
     if request.method == 'POST' and form.validate():
         # Handle form submission
+        existing_questions = UserSecurityQuestions.query.filter_by(username="A").all()
+        existing_question_ids = {q.questionid for q in existing_questions}
+        submitted_question_ids = set()
+
         for i, question_form in enumerate(form.questions):
-            question = UserSecurityQuestions.query.filter_by(username=current_user.username, questionid=i+1).first()
+            question_id = i + 1
+            submitted_question_ids.add(question_id)
+            question = UserSecurityQuestions.query.filter_by(username="A", questionid=question_id).first()
             if question:
                 question.question = question_form.question.data
             else:
-                new_question = UserSecurityQuestions(username=current_user.username, questionid=i+1, question=question_form.question.data)
+                new_question = UserSecurityQuestions(username="A", questionid=question_id, question=question_form.question.data)
                 db.session.add(new_question)
+
+        # Remove questions that were not submitted
+        questions_to_remove = existing_question_ids - submitted_question_ids
+        for question_id in questions_to_remove:
+            question = UserSecurityQuestions.query.filter_by(username="A", questionid=question_id).first()
+            if question:
+                db.session.delete(question)
+
         db.session.commit()
         flash('Settings saved successfully!', 'success')
         return redirect(url_for('settings'))
     else:
         # Populate form with existing questions
-        questions = UserSecurityQuestions.query.filter_by(username=current_user.username).all()
+        questions = UserSecurityQuestions.query.filter_by(username="A").all()
         question_count = len(questions)
-        flash(f'There are {question_count} questions.', 'info')
         for i, question in enumerate(questions):
             if i < len(form.questions):
                 form.questions[i].question.data = question.question
+            else:
+                form.questions.append_entry({'question': question.question})
         # Ensure the form has the correct number of fields
         while len(form.questions) < len(questions):
             form.questions.append_entry()
@@ -186,6 +200,7 @@ if not app.debug:
 
 # Default port:
 if __name__ == '__main__':
+
     app.run()
 
 # Or specify port manually:

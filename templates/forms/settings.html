@@ -1,19 +1,12 @@
 {% extends 'layouts/main.html' %}
 {% block title %}Settings{% endblock %}
 {% block content %}
-  {% with messages = get_flashed_messages(with_categories=True) %}
-    {% if messages %}
-      {% for category, message in messages %}
-        <div class="alert alert-{{ category }}">{{ message }}</div>
-      {% endfor %}
-    {% endif %}
-  {% endwith %}
   <form method="post" class="form" id="settings-form">
     <h3 class="form-heading">Settings <a href="{{ url_for('home') }}" title="Back to homepage"><i class="fa fa-home pull-right"></i></a></h3>
     <div id="questions-container">
       {% for question in form.questions %}
         <div class="input-group mb-3">
-          {{ question.question(class_='form-control', placeholder='Question ' ~ loop.index) }}
+          {{ question.question(class_='form-control', placeholder='Question ' ~ loop.index, value=question.question.data) }}
           <button class="btn btn-outline-secondary remove-question" type="button">Remove</button>
         </div>
       {% endfor %}
