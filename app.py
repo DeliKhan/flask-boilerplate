@@ -193,43 +193,6 @@ def settings():
             form.questions.append_entry()
     return render_template('forms/settings.html', form=form)
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    form = LoginForm(request.form)
-    if request.method == 'POST' and form.validate():
-        user = User.query.filter_by(username=form.username.data).first()
-        if user and user.checkPassword(form.password.data):
-            luser = LoginUser()
-            luser.id = user.username
-            if login_user(luser, remember=True):
-                return redirect(url_for('profile'))
-            else: return "bad"
-        else:
-            flash('Invalid username or password.')
-    return render_template('forms/login.html', form=form)
-
-
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    form = RegisterForm(request.form)
-    if request.method == 'POST' and form.validate():
-        user = User(form.username.data, form.email.data, form.password.data)
-        db.session.add(user)
-        try:
-            db.session.commit()
-        except:
-            flash('Error: User already exists.')
-            return redirect(url_for('register'))
-        flash('You are now registered and can log in!', 'success')
-        return redirect(url_for('login'))
-    return render_template('forms/register.html', form=form)
-
-@app.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    flash("You've successfully logged out.", 'success')
-    return redirect(url_for('home'))
 
 # Error handlers ------------------------------------------------------------#
 

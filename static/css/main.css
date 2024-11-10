@@ -153,3 +153,57 @@ body{
   color: black;
   cursor: pointer;
 }
+
+/* Center the profile-about section */
+.profile-about {
+  display: flex;
+  flex-direction: column; /* Stack the button and text vertically */
+  justify-content: center;
+  align-items: center;
+  height: 400px; /* Ensure the container takes full height of the page */
+}
+
+/* Style for the button with lock */
+.profile-private {
+  display: flex;
+  justify-content: center;  /* Centers the image horizontally within the button */
+  align-items: center;      /* Centers the image vertically within the button */
+  width: 150px; /* Adjust button size if needed */
+  height: 150px;
+  border: 2px solid #101315;
+  border-radius: 50%;      /* Makes the button circular */
+  background-color: white;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+/* Increase the size of the lock image */
+.profile-lock {
+  width: 60px; /* Increase the size of the lock image */
+  height: 60px;
+}
+
+.profile-privatemsg {
+  text-align: center;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+}
+
+.profile-header h2 {
+  margin-right: 200px; /* Adjust the spacing between username and followers count */
+}
+
+.profile-header h4 {
+  margin-right: 200px; /* Adjust the spacing between username and followers count */
+}
+
+.profile-header p {
+  margin: 0;
+}
+
+#openModalBtn {
+  margin-top: 20px; /* Adjust the value to move it lower */
+}

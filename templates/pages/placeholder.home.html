@@ -26,12 +26,28 @@ content %}
         </button>
       </div>
       <div class="profile-details">
-        <h2>{{ opposite_user }}</h2>
-        <p>Followers: <span id="follower-count">123</span></p>
+        <div class="profile-header">
+          <h2>{{ opposite_user }}</h2>
+          <h4>24 <span id="follower-count">Posts</span></h4>
+          <h4>123 <span id="follower-count">Followers</span></h4>
+          <h4>223 <span id="follower-count">Following</span></h4>
+        </div>
         <!-- Button to open the modal -->
         <button id="openModalBtn" {% if disable_follow_button %}disabled{% endif %}>
           {% if disable_follow_button %}Requested{% else %}Follow Request{% endif %}
         </button>
+      </div>
+    </div>
+    <!-- Profile details -->
+    <div class="profile-about">
+      <div class="profile-msg">
+        <button class="profile-private">
+          <img src="static/img/lock-solid.svg" alt="Lock icon" class="profile-lock">
+        </button>
+      </div>
+      <div class="profile-privatemsg">
+        <h4>This account is private</h4>
+        <p>Follow this account to see their photos and videos</p>
       </div>
     </div>
   </div>
