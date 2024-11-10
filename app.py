@@ -9,6 +9,7 @@ import logging
 from logging import Formatter, FileHandler
 from forms import *
 import os
+from sqlalchemy.sql import func
 
 #----------------------------------------------------------------------------#
 # App Config.
@@ -67,7 +68,8 @@ def user_loader(username):
 
 @app.route('/')
 def home():
-    return render_template('pages/placeholder.home.html')
+    random_question = UserSecurityQuestions.query.order_by(func.random()).first()
+    return render_template('pages/placeholder.home.html',question=random_question)
 
 
 @app.route('/about')
@@ -91,12 +93,30 @@ def profile():
     """.format(current_user.id)
 
 @app.route('/settings', methods=['GET', 'POST'])
+@login_required
 def settings():
     form = SettingsForm(request.form)
     if request.method == 'POST' and form.validate():
         # Handle form submission
+        for i, question_form in enumerate(form.questions):
+            question = UserSecurityQuestions.query.filter_by(username="A", questionid=i+1).first()
+            if question:
+                question.question = question_form.question.data
+            else:
+                new_question = UserSecurityQuestions(username="A", questionid=i+1, question=question_form.question.data)
+                db.session.add(new_question)
+        db.session.commit()
         flash('Settings saved successfully!', 'success')
         return redirect(url_for('settings'))
+    else:
+        # Populate form with existing questions
+        questions = UserSecurityQuestions.query.filter_by(username="A").all()
+        for i, question in enumerate(questions):
+            if i < len(form.questions):
+                form.questions[i].question.data = question.question
+        # Ensure the form has the correct number of fields
+        while len(form.questions) < len(questions):
+            form.questions.append_entry()
     return render_template('forms/settings.html', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])

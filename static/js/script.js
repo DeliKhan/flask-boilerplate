@@ -3,16 +3,27 @@
     const questionsContainer = document.getElementById('questions-container');
     const addQuestionButton = document.getElementById('add-question');
 
+    function addQuestionField(index, value = '') {
+      const newQuestion = document.createElement('div');
+      newQuestion.className = 'input-group mb-3';
+      newQuestion.innerHTML = `
+        <input class="form-control" name="questions-${index}-question" placeholder="Question ${index + 1}" type="text" value="${value}">
+        <button class="btn btn-outline-secondary remove-question" type="button">Remove</button>
+      `;
+      questionsContainer.appendChild(newQuestion);
+    }
+
+    // Add existing questions
+    const existingQuestions = {{ form.questions|length }};
+    for (let i = 0; i < existingQuestions; i++) {
+      const questionValue = document.querySelector(`input[name="questions-${i}-question"]`).value;
+      addQuestionField(i, questionValue);
+    }
+
     addQuestionButton.addEventListener('click', function() {
       const questionCount = questionsContainer.children.length;
       if (questionCount < 10) {
-        const newQuestion = document.createElement('div');
-        newQuestion.className = 'input-group mb-3';
-        newQuestion.innerHTML = `
-          <input class="form-control" name="questions-${questionCount}-question" placeholder="Question ${questionCount + 1}" type="text">
-          <button class="btn btn-outline-secondary remove-question" type="button">Remove</button>
-        `;
-        questionsContainer.appendChild(newQuestion);
+        addQuestionField(questionCount);
       }
     });
 
