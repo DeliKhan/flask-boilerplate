@@ -74,7 +74,8 @@ def home():
 
 @app.route('/notification')
 def notification():
-    return render_template('pages/placeholder.notification.html')
+    follow_requests = FollowRequest.query.filter_by(username="A").all()
+    return render_template('pages/placeholder.notification.html', follow_requests=follow_requests)
 
 @app.route('/profile')
 @login_required

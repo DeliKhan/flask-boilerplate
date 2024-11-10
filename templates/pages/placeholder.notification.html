@@ -14,14 +14,17 @@
       </tr>
   </thead>
   <tbody>
+      {% for request in follow_requests %}
       <tr>
-          <td><h5>Incoming notification</h5>
-            <p style="margin: 0; padding: 0;">Question: What is the user's favourite colour? </p>
-            <p>Answer: blue </p>
+          <td>
+            <h5>Incoming notification from {{ request.followerusername }}</h5>
+            <p style="margin: 0; padding: 0;">Question: {{ request.question }}</p>
+            <p>Answer: {{ request.answer }}</p>
           </td>
           <td><button class="btn btn-success accept-btn">Accept</button></td>
           <td><button class="btn btn-danger deny-btn">Deny</button></td>
       </tr>
+      {% endfor %}
   </tbody>
 </table>
 {% endblock %}
