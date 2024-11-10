@@ -21,8 +21,16 @@
             <p style="margin: 0; padding: 0;">Question: {{ request.question }}</p>
             <p>Answer: {{ request.answer }}</p>
           </td>
-          <td><button class="btn btn-success accept-btn">Accept</button></td>
-          <td><button class="btn btn-danger deny-btn">Deny</button></td>
+          <td>
+            <form action="{{ url_for('accept_request', followerusername=request.followerusername) }}" method="post">
+              <button class="btn btn-success accept-btn" type="submit">Accept</button>
+            </form>
+          </td>
+          <td>
+            <form action="{{ url_for('deny_request', followerusername=request.followerusername) }}" method="post">
+              <button class="btn btn-danger deny-btn" type="submit">Deny</button>
+            </form>
+          </td>
       </tr>
       {% endfor %}
   </tbody>

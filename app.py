@@ -77,6 +77,24 @@ def notification():
     follow_requests = FollowRequest.query.filter_by(username="A").all()
     return render_template('pages/placeholder.notification.html', follow_requests=follow_requests)
 
+@app.route('/accept_request/<followerusername>', methods=['POST'])
+def accept_request(followerusername):
+    follow_request = FollowRequest.query.filter_by(username="A", followerusername=followerusername).first()
+    if follow_request:
+        db.session.delete(follow_request)
+        db.session.commit()
+        flash('Follow request accepted.', 'success')
+    return redirect(url_for('notification'))
+
+@app.route('/deny_request/<followerusername>', methods=['POST'])
+def deny_request(followerusername):
+    follow_request = FollowRequest.query.filter_by(username="A", followerusername=followerusername).first()
+    if follow_request:
+        db.session.delete(follow_request)
+        db.session.commit()
+        flash('Follow request denied.', 'danger')
+    return redirect(url_for('notification'))
+
 @app.route('/profile')
 @login_required
 def profile():
