@@ -2,7 +2,7 @@
   document.addEventListener('DOMContentLoaded', function() {
     const questionsContainer = document.getElementById('questions-container');
     const addQuestionButton = document.getElementById('add-question');
-
+    console.log(document.querySelectorAll('input[name^="questions-"]').length);
     function addQuestionField(index, value = '') {
       const newQuestion = document.createElement('div');
       newQuestion.className = 'input-group mb-3';
@@ -14,7 +14,7 @@
     }
 
     // Add existing questions
-    const existingQuestions = {{ form.questions|length }};
+    const existingQuestions = document.querySelectorAll('input[name^="questions-"]').length;
     for (let i = 0; i < existingQuestions; i++) {
       const questionValue = document.querySelector(`input[name="questions-${i}-question"]`).value;
       addQuestionField(i, questionValue);

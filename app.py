@@ -99,18 +99,20 @@ def settings():
     if request.method == 'POST' and form.validate():
         # Handle form submission
         for i, question_form in enumerate(form.questions):
-            question = UserSecurityQuestions.query.filter_by(username="A", questionid=i+1).first()
+            question = UserSecurityQuestions.query.filter_by(username=current_user.username, questionid=i+1).first()
             if question:
                 question.question = question_form.question.data
             else:
-                new_question = UserSecurityQuestions(username="A", questionid=i+1, question=question_form.question.data)
+                new_question = UserSecurityQuestions(username=current_user.username, questionid=i+1, question=question_form.question.data)
                 db.session.add(new_question)
         db.session.commit()
         flash('Settings saved successfully!', 'success')
         return redirect(url_for('settings'))
     else:
         # Populate form with existing questions
-        questions = UserSecurityQuestions.query.filter_by(username="A").all()
+        questions = UserSecurityQuestions.query.filter_by(username=current_user.username).all()
+        question_count = len(questions)
+        flash(f'There are {question_count} questions.', 'info')
         for i, question in enumerate(questions):
             if i < len(form.questions):
                 form.questions[i].question.data = question.question
