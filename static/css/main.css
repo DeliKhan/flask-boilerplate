@@ -77,3 +77,79 @@ footer svg {
 #add-question {
   width: 8rem;
 }
+
+body{
+  background-color: rgb(244, 227, 250);
+}
+
+.navbar-brand{
+  font-family: cursive;
+}
+
+.profile-circle {
+    display: flex;
+    align-items: center;
+    margin: 20px;
+}
+
+.profile-btn {
+  display: flex;
+  justify-content: center;  /* Centers the image horizontally within the button */
+  align-items: center;      /* Centers the image vertically within the button */
+  width: 100px;
+  height: 100px;
+  border: 2px solid #3897f0;
+  border-radius: 50%;      /* Makes the button circular */
+  background-color: white;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.profile-btn:hover {
+    transform: scale(1.1);
+    background-color: #f0f8ff;
+}
+
+.profile-pic {
+  padding: 0;
+  width: 75%;
+  height: 80%;
+  margin: 0;
+  object-fit: cover;
+}
+
+/* The modal's default hidden state */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  background-color: rgba(0, 0, 0, 0.4); /* Black background with transparency */
+}
+
+/* Modal content */
+.modal-content {
+  background-color: white;
+  margin: 15% auto; /* Center the modal */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%; /* Set a width for the modal */
+  text-align: center;
+}
+
+/* Close button (x) */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  cursor: pointer;
+}

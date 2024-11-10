@@ -3,8 +3,22 @@
 {% block content %}
 
 <div class="page-header">
-  <h1>Welcome to your <span class="standout">Next Big Thing</span></h1>
+  <div class="profile-section">
+    <!-- Profile Image -->
+    <div class="profile-info">
+        <div class="profile-circle">
+          <button class="profile-btn">
+            <img src="static/img/profile_picture.svg" alt="Profile Picture" class="profile-pic">
+          </button>
+        </div>
+        <div class="profile-details">
+            <h2>Username</h2>
+            <p>Followers: <span id="follower-count">123</span></p>
+            <!-- Button to open the modal -->
+            <button id="openModalBtn">Follow Request</button>
+        </div>
+    </div>
+  </div>
 </div>
-<p class="lead">This is the boilerplate template for Flask, originally written by RealPython, and updated for 2022 by <code>aaronleetw</code>.</p>
 
 {% endblock %}
