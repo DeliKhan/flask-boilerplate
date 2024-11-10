@@ -99,7 +99,7 @@ def submit_follow_request():
     question = request.form.get('question')
     answer = request.form.get('answer')
 
-    # Create a new FollowRequest instance and save to the database
+    # Create a new FollowReqest instance and save to the database
     new_request = FollowRequest(username='B' if g.current == 'A' else 'A', followerusername=g.current, question=question, answer=answer)
     db.session.add(new_request)
     db.session.commit()
@@ -114,7 +114,7 @@ def notification():
 
 @app.route('/accept_request/<followerusername>', methods=['POST'])
 def accept_request(followerusername):
-    follow_request = FollowRequest.query.filter_by(username="A", followerusername=followerusername).first()
+    follow_request = FollowRequest.query.filter_by(username=g.current, followerusername=followerusername).first()
     if follow_request:
         db.session.delete(follow_request)
         db.session.commit()
@@ -123,7 +123,7 @@ def accept_request(followerusername):
 
 @app.route('/deny_request/<followerusername>', methods=['POST'])
 def deny_request(followerusername):
-    follow_request = FollowRequest.query.filter_by(username="A", followerusername=followerusername).first()
+    follow_request = FollowRequest.query.filter_by(username=g.current, followerusername=followerusername).first()
     if follow_request:
         db.session.delete(follow_request)
         db.session.commit()
