@@ -47,6 +47,10 @@ var btn = document.getElementById("openModalBtn");
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
 
+// Get the submit button inside the modal
+var submitBtn = document.querySelector("#myModal input[type='submit']");
+
+
 // When the user clicks the button, open the modal
 btn.onclick = function() {
     modal.style.display = "block";
@@ -63,3 +67,52 @@ window.onclick = function(event) {
         modal.style.display = "none";
     }
 }
+
+
+// Get the submit button inside the modal
+var submitBtn = document.querySelector("#myModal input[type='submit']");
+
+// Get the input field inside the modal
+var answerInput = document.getElementById("modalInput");
+
+// When the user clicks the submit button, close the modal
+submitBtn.onclick = function() {
+    modal.style.display = "none";
+}
+
+
+
+var inputField = document.querySelector("#myModal input[type='text']");
+
+
+
+
+
+
+
+
+
+// When the user clicks the submit button, validate input, close modal, and update button
+submitBtn.onclick = function (event) {
+  event.preventDefault(); // Prevent default form submission behavior
+
+  // Validate the input field
+  if (inputField.value.trim() === "") {
+      inputField.setCustomValidity("Please answer the question.");
+      inputField.reportValidity(); // Show the validation message
+      return; // Exit the function without closing the modal or updating the button
+  } else {
+      inputField.setCustomValidity(""); // Clear the custom validity message
+  }
+
+  // Close the modal
+  modal.style.display = "none";
+
+  // Update the "Follow Request" button text and disable it
+  if (btn) {
+      btn.textContent = "Requested";
+      btn.disabled = true;
+      btn.classList.remove("btn-primary");
+      btn.classList.add("btn-secondary");
+  }
+};
