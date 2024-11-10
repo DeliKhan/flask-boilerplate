@@ -10,6 +10,7 @@ from logging import Formatter, FileHandler
 from forms import *
 import os
 from sqlalchemy.sql import func
+from flask import g
 
 #----------------------------------------------------------------------------#
 # App Config.
@@ -66,10 +67,28 @@ def user_loader(username):
 #    but I won't to that here.
 #----------------------------------------------------------------------------#
 
+# Set a global variable 'current' before each request
+@app.before_request
+def before_request():
+    if 'current' not in session:
+        session['current'] = 'A'  # Default value
+    g.current = session['current']
+
+@app.route('/toggle_user')
+def toggle_user():
+    if session['current'] == 'A':
+        session['current'] = 'B'
+    else:
+        session['current'] = 'A'
+    return redirect(request.referrer or url_for('home'))
+
 @app.route('/')
 def home():
     random_question = UserSecurityQuestions.query.order_by(func.random()).first()
-    return render_template('pages/placeholder.home.html',question=random_question)
+    existing_follow_request = FollowRequest.query.filter_by(followerusername=g.current).first()
+    disable_follow_button = existing_follow_request is not None
+    opposite_user = 'B' if g.current == 'A' else 'A'
+    return render_template('pages/placeholder.home.html', question=random_question, disable_follow_button=disable_follow_button, opposite_user=opposite_user)
 
 from flask import request
 
@@ -81,7 +100,7 @@ def submit_follow_request():
     answer = request.form.get('answer')
 
     # Create a new FollowRequest instance and save to the database
-    new_request = FollowRequest(username='A', followerusername='B', question=question, answer=answer)
+    new_request = FollowRequest(username='B' if g.current == 'A' else 'A', followerusername=g.current, question=question, answer=answer)
     db.session.add(new_request)
     db.session.commit()
 
@@ -90,7 +109,7 @@ def submit_follow_request():
 
 @app.route('/notification')
 def notification():
-    follow_requests = FollowRequest.query.filter_by(username="A").all()
+    follow_requests = FollowRequest.query.filter_by(username=g.current).all()
     return render_template('pages/placeholder.notification.html', follow_requests=follow_requests)
 
 @app.route('/accept_request/<followerusername>', methods=['POST'])
@@ -141,8 +160,12 @@ def settings():
             submitted_question_ids.add(question_id)
             question = UserSecurityQuestions.query.filter_by(username="A", questionid=question_id).first()
             if question:
-                question.question = question_form.question.data
+                # Update existing question
+                if question.question != question_form.question.data:
+                    print(f"Updating question {question_id}: {question.question} -> {question_form.question.data}")
+                    question.question = question_form.question.data
             else:
+                # Add new question
                 new_question = UserSecurityQuestions(username="A", questionid=question_id, question=question_form.question.data)
                 db.session.add(new_question)
 

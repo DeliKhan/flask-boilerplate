@@ -26,10 +26,12 @@ content %}
         </button>
       </div>
       <div class="profile-details">
-        <h2>Username</h2>
+        <h2>{{ opposite_user }}</h2>
         <p>Followers: <span id="follower-count">123</span></p>
         <!-- Button to open the modal -->
-        <button id="openModalBtn">Follow Request</button>
+        <button id="openModalBtn" {% if disable_follow_button %}disabled{% endif %}>
+          {% if disable_follow_button %}Requested{% else %}Follow Request{% endif %}
+        </button>
       </div>
     </div>
   </div>
@@ -42,8 +44,8 @@ content %}
   method="POST"
   style="display: none"
 >
-  <input type="hidden" name="username" value="{{ username }}" />
-  <input type="hidden" name="followerusername" value="{{ followerusername }}" />
+  <input type="hidden" name="username" value="{{ g.current }}" />
+  <input type="hidden" name="followerusername" value="{{ g.current }}" />
   <input type="hidden" name="question" value="{{ question.question }}" />
   <input type="hidden" id="answerInput" name="answer" value="" />
 </form>
