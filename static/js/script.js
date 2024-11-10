@@ -87,6 +87,34 @@ var inputField = document.querySelector("#myModal input[type='text']");
 
 
 
+// When the user clicks the submit button, validate input, close modal, and update button
+submitBtn.onclick = function (event) {
+  event.preventDefault(); // Prevent default form submission behavior
+
+  // Validate the input field
+  if (inputField.value.trim() === "") {
+      inputField.setCustomValidity("Please answer the question.");
+      inputField.reportValidity(); // Show the validation message
+      return; // Exit the function without closing the modal or updating the button
+  } else {
+      inputField.setCustomValidity(""); // Clear the custom validity message
+  }
+
+  // Close the modal
+  modal.style.display = "none";
+
+  // Update the "Follow Request" button text and disable it
+  if (btn) {
+      btn.textContent = "Requested";
+      btn.disabled = true;
+      btn.classList.remove("btn-primary");
+      btn.classList.add("btn-secondary");
+  }
+};
+
+
+
+
 
 
 
